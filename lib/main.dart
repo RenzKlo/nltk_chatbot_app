@@ -1,16 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert'; // for json support
+import 'dart:convert';
+
+import 'package:nltk_chatbot_app/landing_page.dart'; // for json support
 
 void main() {
-  runApp(const MainApp());
+  runApp(const NewMainApp());
 }
+
+
+class NewMainApp extends StatefulWidget {
+  const NewMainApp({super.key});
+
+  @override
+  State<NewMainApp> createState() => _NewMainAppState();
+}
+
+class _NewMainAppState extends State<NewMainApp> {
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: LandingPage(),
+    );
+  }
+}
+
 
 class MainApp extends StatefulWidget {
   const MainApp({super.key});
 
   @override
   State<MainApp> createState() => _MainAppState();
+
 }
 
 class _MainAppState extends State<MainApp> {
@@ -23,7 +45,7 @@ class _MainAppState extends State<MainApp> {
       String emailMessage = emailMessageController.text;
       print(emailMessage);
       var response = await http.post(
-        Uri.parse('http://10.0.2.2:5000/detect'), // replace with your API URL
+        Uri.https('renzklo.pythonanywhere.com', '/detect'), // replace with your API URL
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
