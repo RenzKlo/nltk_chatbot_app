@@ -58,6 +58,7 @@ class _MainContainerState extends State<MainContainer> {
         throw Exception('Email message is empty');
       }
       print(emailMessage);
+
       var response = await http.post(
         Uri.https('renzklo.pythonanywhere.com',
             '/detect'), // replace with your API URL
@@ -98,8 +99,17 @@ class _MainContainerState extends State<MainContainer> {
         throw Exception(
             'Failed to send email message. Status Code: ${response.statusCode}');
       }
-    } catch (e) {
-      print(e.toString());
+    } on http.ClientException catch (e) {
+      // If an exception was thrown, update emailColorIndicator and emailStatus
+      Fluttertoast.showToast(
+          msg: 'Unable to connect to server. Check your internet connection.',
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.pink,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    } on Exception catch (e) {
       // If an exception was thrown, update emailColorIndicator and emailStatus
 
       Fluttertoast.showToast(
@@ -228,7 +238,7 @@ class _ButtonSelectorsState extends State<ButtonSelectors> {
             onPressed: widget.onClear,
             style: OutlinedButton.styleFrom(
               side:
-                  BorderSide(color:  Color.fromARGB(255, 219, 51, 0), width: 2),
+                  BorderSide(color: Color.fromARGB(255, 219, 51, 0), width: 2),
               foregroundColor: Color.fromARGB(255, 219, 51, 0),
               backgroundColor: Colors.white,
             ),
