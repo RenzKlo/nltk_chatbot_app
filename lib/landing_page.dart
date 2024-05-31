@@ -99,7 +99,7 @@ class _MainContainerState extends State<MainContainer> {
         throw Exception(
             'Failed to send email message. Status Code: ${response.statusCode}');
       }
-    } on http.ClientException catch (e) {
+    } on http.ClientException {
       // If an exception was thrown, update emailColorIndicator and emailStatus
       Fluttertoast.showToast(
           msg: 'Unable to connect to server. Check your internet connection.',
